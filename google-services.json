@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "886767861858",
+    "project_id": "respiro-d0ed2",
+    "storage_bucket": "respiro-d0ed2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:886767861858:android:548be3b45f9c35a768913b",
+        "android_client_info": {
+          "package_name": "com.german.terapia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "886767861858-cdvb7apctlqg0fl1m1v9o3isektq0ii2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB22KdqHE5c6akqWqYiLwEABxDe8x0t77g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "886767861858-cdvb7apctlqg0fl1m1v9o3isektq0ii2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
