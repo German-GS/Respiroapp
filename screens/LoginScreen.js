@@ -2,32 +2,46 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import colors from '../styles/Colors';
 import * as Google from 'expo-auth-session/providers/google';
+import { auth } from '../firebase/firebaseConfig';
+import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 import { useEffect } from 'react';
 import { FontAwesome } from '@expo/vector-icons';
 import * as WebBrowser from 'expo-web-browser';
+import { getGoogleAuthConfig } from '../utils/authConfig';
+
 
 
 
 WebBrowser.maybeCompleteAuthSession();
 
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [request, response, promptAsync] = Google.useAuthRequest({
-  expoClientId: 'TU_EXPO_CLIENT_ID.apps.googleusercontent.com',
-  androidClientId: 'TU_ANDROID_CLIENT_ID.apps.googleusercontent.com',
-  iosClientId: 'TU_IOS_CLIENT_ID.apps.googleusercontent.com',
-  webClientId: 'TU_WEB_CLIENT_ID.apps.googleusercontent.com',
-});
+  const [request, response, promptAsync] = getGoogleAuthConfig();
 
 useEffect(() => {
   if (response?.type === 'success') {
     const { authentication } = response;
-    console.log('✅ Google Login OK:', authentication);
-    // Aquí podés continuar con Firebase si querés
+
+    const authenticateWithFirebase = async () => {
+      try {
+        const credential = GoogleAuthProvider.credential(null, authentication.accessToken);
+        const userCredential = await signInWithCredential(auth, credential);
+        console.log('✅ Usuario autenticado con Firebase:', userCredential.user);
+
+        // Acá podrías redirigir a CompletarPerfil si es nuevo
+        // navigation.navigate('CompletarPerfil');
+      } catch (error) {
+        console.error('❌ Error autenticando en Firebase:', error);
+      }
+    };
+
+    authenticateWithFirebase();
   }
 }, [response]);
+
+
 
 
   return (
@@ -57,12 +71,21 @@ useEffect(() => {
         <Text style={styles.buttonText}>Iniciar sesión</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.googleButton}>
+      <TouchableOpacity style={styles.googleButton} onPress={() => promptAsync({ useProxy: true })}>
         <FontAwesome name="google" size={24} color="#405159" style={{ marginRight: 10 }} />
         <Text style={styles.googleButtonText}>Iniciar sesión con Google</Text>
-        </TouchableOpacity>
+    </TouchableOpacity>
+
 
       <Text style={styles.forgotText}>¿Olvidaste tu contraseña?</Text>
+      <Text style={styles.registerText}>
+        ¿No tenés una cuenta?{' '}
+        <Text style={styles.registerLink} onPress={() => navigation.navigate('Register')}>
+         Registrate
+        </Text>
+
+      </Text>
+
     </View>
   );
 }

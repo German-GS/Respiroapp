@@ -3,6 +3,8 @@
     "name": "app-terapia",
     "slug": "app-terapia",
     "version": "1.0.0",
+    "owner": "germangs",
+    "scheme": "appterapia",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
